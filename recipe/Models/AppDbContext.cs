@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore;
+
 namespace recipe.Models
 {
 	public class AppDbContext : DbContext
