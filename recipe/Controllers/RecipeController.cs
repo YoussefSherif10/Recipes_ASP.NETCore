@@ -16,6 +16,12 @@ public class RecipeController : Controller
         _logger = logger;
     }
 
+    public IActionResult Index()
+    {
+        var models = _service.GetRecipes();
+        return View(models);
+    }
+
     public IActionResult View(int id)
     {
         var model = _service.GetRecipeDetail(id);

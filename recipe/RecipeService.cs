@@ -13,6 +13,16 @@ namespace RecipeApp
 			_context = context;
 		}
 
+		public ICollection<RecipeSummaryViewModel> GetRecipes()
+		{
+			return _context.Recipes.Select(x => new RecipeSummaryViewModel
+			{
+				Id = x.RecipeId,
+                Name = x.Name,
+                TimeToCook = $"{x.TimeToCock.Hours}hrs {x.TimeToCock.Minutes}mins",
+            }).ToList();
+		}
+
 		public int CreateRecipe(CreateRecipeCommand cmd)
 		{
 			var recipe = cmd.ToRecipe();
@@ -21,7 +31,7 @@ namespace RecipeApp
 			return recipe.RecipeId;
 		}
 
-		public RecipeDetailViewModel GetRecipeDetail(int id)
+		public RecipeDetailViewModel? GetRecipeDetail(int id)
 		{
 			return _context.Recipes
 				.Where(x => x.RecipeId == id)
