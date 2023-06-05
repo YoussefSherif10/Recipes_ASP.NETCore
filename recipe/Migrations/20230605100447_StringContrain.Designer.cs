@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using recipe.Models;
+using recipe.Data;
 
 #nullable disable
 
 namespace recipe.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230604180952_InitialSchema")]
-    partial class InitialSchema
+    [Migration("20230605100447_StringContrain")]
+    partial class StringContrain
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,14 +20,13 @@ namespace recipe.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
 
-            modelBuilder.Entity("recipe.Models.Ingredient", b =>
+            modelBuilder.Entity("recipe.Data.Ingredient", b =>
                 {
                     b.Property<int>("IngredientId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Quantity")
@@ -37,7 +36,6 @@ namespace recipe.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Unit")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("IngredientId");
@@ -47,13 +45,16 @@ namespace recipe.Migrations
                     b.ToTable("Ingredient");
                 });
 
-            modelBuilder.Entity("recipe.Models.Recipe", b =>
+            modelBuilder.Entity("recipe.Data.Recipe", b =>
                 {
                     b.Property<int>("RecipeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsVegan")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsVegetarian")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Method")
@@ -62,6 +63,7 @@ namespace recipe.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<TimeSpan>("TimeToCock")
@@ -72,16 +74,16 @@ namespace recipe.Migrations
                     b.ToTable("Recipes");
                 });
 
-            modelBuilder.Entity("recipe.Models.Ingredient", b =>
+            modelBuilder.Entity("recipe.Data.Ingredient", b =>
                 {
-                    b.HasOne("recipe.Models.Recipe", null)
+                    b.HasOne("recipe.Data.Recipe", null)
                         .WithMany("Ingredients")
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("recipe.Models.Recipe", b =>
+            modelBuilder.Entity("recipe.Data.Recipe", b =>
                 {
                     b.Navigation("Ingredients");
                 });

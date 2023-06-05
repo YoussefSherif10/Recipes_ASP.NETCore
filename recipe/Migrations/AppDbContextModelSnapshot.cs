@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using recipe.Models;
+using recipe.Data;
 
 #nullable disable
 
@@ -17,7 +17,7 @@ namespace recipe.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
 
-            modelBuilder.Entity("recipe.Models.Ingredient", b =>
+            modelBuilder.Entity("recipe.Data.Ingredient", b =>
                 {
                     b.Property<int>("IngredientId")
                         .ValueGeneratedOnAdd()
@@ -42,13 +42,10 @@ namespace recipe.Migrations
                     b.ToTable("Ingredient");
                 });
 
-            modelBuilder.Entity("recipe.Models.Recipe", b =>
+            modelBuilder.Entity("recipe.Data.Recipe", b =>
                 {
                     b.Property<int>("RecipeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsDeleted")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsVegan")
@@ -58,9 +55,12 @@ namespace recipe.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Method")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<TimeSpan>("TimeToCock")
@@ -71,16 +71,16 @@ namespace recipe.Migrations
                     b.ToTable("Recipes");
                 });
 
-            modelBuilder.Entity("recipe.Models.Ingredient", b =>
+            modelBuilder.Entity("recipe.Data.Ingredient", b =>
                 {
-                    b.HasOne("recipe.Models.Recipe", null)
+                    b.HasOne("recipe.Data.Recipe", null)
                         .WithMany("Ingredients")
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("recipe.Models.Recipe", b =>
+            modelBuilder.Entity("recipe.Data.Recipe", b =>
                 {
                     b.Navigation("Ingredients");
                 });

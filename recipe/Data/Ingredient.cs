@@ -1,5 +1,5 @@
 ﻿using System;
-namespace recipe.Models
+namespace recipe.Data
 {
 	public class Ingredient
 	{

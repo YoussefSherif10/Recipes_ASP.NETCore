@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using recipe.Models;
+using recipe.Data;
 using Microsoft.Extensions.Configuration;
-
+using RecipeApp;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +10,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connectionString));
+builder.Services.AddScoped<RecipeService>();
 
 var app = builder.Build();
 
@@ -30,7 +31,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Recipe}/{action=Create}/{id?}");
 
 app.Run();
 

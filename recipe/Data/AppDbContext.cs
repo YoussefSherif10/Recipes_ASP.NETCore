@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 
 
-namespace recipe.Models
+namespace recipe.Data
 {
     // has the list of entities needed to access the DB
     public class AppDbContext : DbContext

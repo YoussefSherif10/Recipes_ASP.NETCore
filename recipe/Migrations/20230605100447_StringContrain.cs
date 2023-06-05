@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace recipe.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialSchema : Migration
+    public partial class StringContrain : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,9 +17,10 @@ namespace recipe.Migrations
                 {
                     RecipeId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     TimeToCock = table.Column<TimeSpan>(type: "TEXT", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsVegan = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsVegetarian = table.Column<bool>(type: "INTEGER", nullable: false),
                     Method = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -34,9 +35,9 @@ namespace recipe.Migrations
                     IngredientId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     RecipeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
                     Quantity = table.Column<decimal>(type: "TEXT", nullable: false),
-                    Unit = table.Column<string>(type: "TEXT", nullable: false)
+                    Unit = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
