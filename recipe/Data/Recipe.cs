@@ -11,6 +11,7 @@ namespace recipe.Data
 		public bool IsVegan { get; set; }
 		public bool IsVegetarian { get; set; }
 		public string Method { get; set; }
+		public bool IsDelete { get; set; }
 		public ICollection<Ingredient>? Ingredients { get; set; } // contain list of ingredients
 	}
 }

@@ -60,5 +60,49 @@ public class RecipeController : Controller
 
         return View(command);
     }
+
+    [HttpPost]
+    public IActionResult DeletePost(int id)
+    {
+        _service.DeleteRecipe(id);
+        return RedirectToAction(nameof(Index));
+    }
+
+    public IActionResult Edit(int id)
+    {
+        var model = _service.GetRecipeForUpdate(id);
+        if (model == null)
+        {
+            // If id is not for a valid Recipe, generate a 404 error page
+            // TODO: Add status code pages middleware to show friendly 404 page
+            return NotFound();
+        }
+        return View(model);
+    }
+
+    [HttpPost]
+    public IActionResult Edit(UpdateRecipeCommand command)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                _service.UpdateRecipe(command);
+                return RedirectToAction(nameof(View), new { id = command.Id });
+            }
+        }
+        catch (Exception)
+        {
+            // TODO: Log error
+            // Add a model-level error by using an empty string key
+            ModelState.AddModelError(
+                string.Empty,
+                "An error occured saving the recipe"
+                );
+        }
+
+        //If we got to here, something went wrong
+        return View(command);
+    }
 }
 
