@@ -7,7 +7,7 @@ using recipe.Filters;
 namespace recipe.Controllers
 {
     [ApiController]
-    [Route("api/recipe"), FeatureEnabled(IsEnabled = true), ValidateModel]
+    [Route("api/recipe"), FeatureEnabled(IsEnabled = true), ValidateModel, HandleException]
     public class RecipeApiController : ControllerBase
     {
         public RecipeService _service;
