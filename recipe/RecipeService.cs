@@ -87,6 +87,14 @@ namespace RecipeApp
             cmd.UpdateRecipe(recipe);
             _context.SaveChanges();
         }
+
+        public bool DoesRecipeExist(int id)
+        {
+            return _context.Recipes
+                .Where(x => x.RecipeId == id)
+                .Where(r => !r.IsDelete)
+                .Any();
+        }
     }
 }
 
