@@ -7,7 +7,7 @@ using recipe.Filters;
 namespace recipe.Controllers
 {
     [ApiController]
-    [Route("api/recipe"), FeatureEnabled(IsEnabled = true)]
+    [Route("api/recipe"), FeatureEnabled(IsEnabled = true), ValidateModel]
     public class RecipeApiController : ControllerBase
     {
         public RecipeService _service;
@@ -16,15 +16,11 @@ namespace recipe.Controllers
             _service = service;
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}"), EnsureRecipeExists]
         public IActionResult Get(int id)
         {
             try
             {
-                if (!_service.DoesRecipeExist(id))
-                {
-                    return NotFound();
-                }
                 var result = _service.GetRecipeDetail(id);
                 return Ok(result);
             }
@@ -34,15 +30,11 @@ namespace recipe.Controllers
             }
         }
 
-        [HttpPost("{id:int}")]
+        [HttpPost("{id:int}"), EnsureRecipeExists]
         public IActionResult Edit(int id, [FromBody] UpdateRecipeCommand cmd)
         {
             try
             {
-                if (!_service.DoesRecipeExist(id))
-                {
-                    return NotFound();
-                }
                 _service.UpdateRecipe(cmd);
                 return Ok();
             }

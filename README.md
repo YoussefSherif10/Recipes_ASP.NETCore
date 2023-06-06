@@ -10,3 +10,5 @@ I registered this data service in the DI container using AddScoped lifetime to g
 # API and FILTERS
 
 I made a recipe api controller with its own attribute routing system. In order to simplify the action methods I used filters as attributes that are scoped for the controller as a whole and each action. I used Resource Filter to simplify the Enable feature which can short-circuit the pipeline according to a boolean value.
+I used 2 Action Filters which are ValidateModel and EnsureExist which returns BadRequestResult if the ModelState is invalid or the required recipe doesn't exist in the database.
+In the EnsureExist filter I pulled an instance of the data service from the DI container to beb able to search the database for a specific recipe using id.
