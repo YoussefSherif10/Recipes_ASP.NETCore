@@ -19,29 +19,15 @@ namespace recipe.Controllers
         [HttpGet("{id:int}"), EnsureRecipeExists]
         public IActionResult Get(int id)
         {
-            try
-            {
-                var result = _service.GetRecipeDetail(id);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
-            }
+            var result = _service.GetRecipeDetail(id);
+            return Ok(result);
         }
 
         [HttpPost("{id:int}"), EnsureRecipeExists]
         public IActionResult Edit(int id, [FromBody] UpdateRecipeCommand cmd)
         {
-            try
-            {
-                _service.UpdateRecipe(cmd);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
-            }
+            _service.UpdateRecipe(cmd);
+            return Ok();
         }
     }
 }
