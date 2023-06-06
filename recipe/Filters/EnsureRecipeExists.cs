@@ -5,20 +5,30 @@ using RecipeApp;
 
 namespace recipe.Filters
 {
-    public class EnsureRecipeExists : ActionFilterAttribute
+    public class EnsureRecipeExistsFilter : IActionFilter
     {
-        public override void OnActionExecuting(ActionExecutingContext context)
+        private readonly RecipeService _service;
+        public EnsureRecipeExistsFilter(RecipeService service)
         {
-            // fetch instance of the service from the DI container
-            var service = (RecipeService) context.HttpContext
-                .RequestServices.GetService(typeof(RecipeService));
+            _service = service;
+        }
 
-            var RecipeId = (int) context.ActionArguments["id"];
-            if (!service.DoesRecipeExist(RecipeId))
+        public void OnActionExecuted(ActionExecutedContext context) {}
+
+        public void OnActionExecuting(ActionExecutingContext context)
+        {
+            var RecipeId = (int)context.ActionArguments["id"];
+            if (!_service.DoesRecipeExist(RecipeId))
             {
                 context.Result = new NotFoundResult();
             }
         }
+    }
+
+    public class EnsureRecipeExistsAttribute : TypeFilterAttribute
+    {
+        public EnsureRecipeExistsAttribute() : base(typeof(EnsureRecipeExistsFilter))
+        {}
     }
 }
 
